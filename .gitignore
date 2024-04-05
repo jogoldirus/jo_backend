@@ -1,0 +1,4 @@
+/.env
+/node_modules
+fullchain.pem
+privkey.pem
