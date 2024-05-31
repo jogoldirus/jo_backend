@@ -15,6 +15,19 @@ function initEventRoutes(db) {
         res.status(400).send({ message: 'Error during fetching events' });
       })
   })
+  // Create an event
+  app.post('/events/create', isAuthenticated, isAdmin, (req, res) => {
+    const { name, date, city, adress, showOffers = 0 } = req.body;
+    if (!name || !date || !city || !adress || showOffers === undefined) res.status(400).send({ message: 'Missing fields' });
+    db.query('INSERT INTO event (name, date, city, adress, showOffers) VALUES (?,?,?,?,?)', [name, date, city, adress, showOffers])
+      .then(result => {
+        res.send({ message: 'Event created' });
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(400).send({ message: 'Error during event creation' });
+      })
+  })
 
   // Change event's name
   app.post('/events/:id/changename', isAuthenticated, isAdmin, (req, res) => {
@@ -59,6 +72,37 @@ function initEventRoutes(db) {
         console.error(err)
         res.status(500).send({ message: 'Error changing adress' })
       })
+  })
+
+  // Change event's visibility
+  app.post('/events/:id/changevisibility', isAuthenticated, isAdmin, (req, res) => {
+    console.log(req.body.visibility, req.params.id);
+    db.query('UPDATE `event` SET showOffers = ? WHERE id = ?', [req.body.visibility, req.params.id])
+      .then(result => {
+        res.send({ message: 'Visibility changed' })
+      })
+      .catch(err => {
+        console.error(err)
+        res.status(500).send({ message: 'Error changing visibility' })
+      })
+  })
+
+  // Delete event
+  app.delete('/events/:id', isAuthenticated, isAdmin, (req, res) => {
+    const ids = req.params.id ? req.params.id.split("|") : null;
+    if (!ids) res.status(400).send({ message: 'Error during deleting event' });
+    if (ids) {
+      let query = 'DELETE FROM event WHERE id IN (?)';
+      if (ids.length === 1) query = 'DELETE FROM event WHERE id = ?';
+      db.query(query, [ids])
+        .then(result => {
+          res.send({ message: 'Deleted' })
+        })
+        .catch(err => {
+          console.log(err);
+          res.status(400).send({ message: 'Error during deleting event' });
+        })
+    }
   })
 
   return app
