@@ -36,7 +36,6 @@ L'application est sécurisé, et utilise différences technologies pour s'y assu
  - Hashage des mots de passe.
  - Utilisation de token pour identifier l'utilisateur lors des requetes importantes. (JsonWebToken)
  - Utilisation de package ne dépendant de presque aucun autre pour s'assurer la viabilité dans le temps.
- - 
 
 ### Manuel d'utilisation
 
