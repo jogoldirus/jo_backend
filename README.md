@@ -20,7 +20,7 @@ Live : https://studijo.alexiscollignon.fr/
 Ce projet a été développer sous `Windows` avec les technologies suivantes : 
 
      Serveur : 
-        - MySQL
+        - MariaDB
         - Apache
         - Certificat Let's Encrypt (HTTPS)
      Backend (API) :
