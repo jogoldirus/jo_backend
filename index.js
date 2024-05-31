@@ -32,8 +32,8 @@ const offerRoutes = initOfferRoutes(db)
 const userRoutes = initUserRoutes(db)
 const eventRoutes = initEventRoutes(db)
 
-const isOnProd = process.env.DB_USERNAME === 'jo_prod';
-let apiPrefix = isOnProd ? '' : '/apiV2'
+const isOnProd = process.env.DB_USERNAME === 'studi_jo_projet';
+let apiPrefix = isOnProd ? '' : '/api'
 app.get(apiPrefix, (req, res) => {
   res.send({ message: 'API Online' });
 })
@@ -42,5 +42,5 @@ app.use(apiPrefix, [authRoutes, offerRoutes, userRoutes, eventRoutes]);
 const httpsServer = https.createServer(options, app);
 // Démarrage du serveur
 httpsServer.listen(port, () => {
-  console.log(`API en écoute sur http://localhost:${port}/apiV2`);
+  console.log(`API en écoute sur http://localhost:${port}/${isOnProd ? '' : 'api'}`);
 });
