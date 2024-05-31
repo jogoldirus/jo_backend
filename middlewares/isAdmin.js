@@ -6,9 +6,9 @@ const isAdmin = async (req, res, next) => {
     const userID = req.user.userID
 
     // Vérifier si l'utilisateur est un administrateur
-    await db.query('SELECT role.* FROM user INNER JOIN role ON role.IDRole = user.Role_IDRole WHERE user.IDUser = ?;', [userID])
+    await db.query('SELECT user.role FROM user WHERE user.id = ? AND user.role = "ADMIN"', [userID])
       .then(result => {
-        if (result && Array.isArray(result) && result.length === 1 && Number(result[0].Level) <= 3) {
+        if (result && Array.isArray(result) && result.length === 1) {
           req.isAdmin = true
           next()
         }

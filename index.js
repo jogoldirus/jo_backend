@@ -8,6 +8,7 @@ const { db } = require('./database');
 const { initAuthRoutes } = require('./routes/authRoute');
 const { initOfferRoutes } = require('./routes/offerRoute');
 const { initUserRoutes } = require('./routes/userRoute');
+const { initEventRoutes } = require('./routes/eventRoute');
 
 
 const app = express();
@@ -29,13 +30,14 @@ const options = {
 const authRoutes = initAuthRoutes(db)
 const offerRoutes = initOfferRoutes(db)
 const userRoutes = initUserRoutes(db)
+const eventRoutes = initEventRoutes(db)
 
 const isOnProd = process.env.DB_USERNAME === 'jo_prod';
 let apiPrefix = isOnProd ? '' : '/apiV2'
 app.get(apiPrefix, (req, res) => {
   res.send({ message: 'API Online' });
 })
-app.use(apiPrefix, [authRoutes, offerRoutes, userRoutes]);
+app.use(apiPrefix, [authRoutes, offerRoutes, userRoutes, eventRoutes]);
 
 const httpsServer = https.createServer(options, app);
 // Démarrage du serveur
