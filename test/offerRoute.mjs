@@ -59,7 +59,6 @@ describe('POST change offer name', () => {
   afterEach(() => { sinon.restore(); });
 
   it('Should only accept admin', async () => {
-    // Configurer le stub pour retourner un rôle ADMIN
     dbStub.resolves([[{ role: 'ADMIN' }]]);
 
     const response = await supertest(app)
@@ -96,7 +95,6 @@ describe('POST create new offer', () => {
   afterEach(() => { sinon.restore(); });
 
   it('Should only accept admin', async () => {
-    // Configurer le stub pour retourner un rôle ADMIN
     dbStub.resolves([[{ role: 'ADMIN' }]]);
 
     const response = await supertest(app)
@@ -108,7 +106,6 @@ describe('POST create new offer', () => {
     expect(response.body.message).to.equal('Offer created');
   });
   it('Should reject non-admin', async () => {
-    // Configurer le stub pour retourner un rôle non-ADMIN
     dbStub.resolves([[{ role: 'USER' }]]);
 
     const response = await supertest(app)
@@ -120,7 +117,6 @@ describe('POST create new offer', () => {
     expect(response.body.message).to.equal("Vous n'êtes pas autorisé à accéder à cette ressource sans authentification");
   });
   it('Should only accept connected user', async () => {
-    // Configurer le stub pour retourner un rôle ADMIN
     dbStub.resolves([[{ role: 'ADMIN' }]]);
     const response = await supertest(app)
       .post('/api/offer/create')
@@ -130,7 +126,6 @@ describe('POST create new offer', () => {
     expect(response.body.message).to.equal("Vous n'êtes pas autorisé à accéder à cette ressource sans authentification");
   });
   it('Should handle missing fields', async () => {
-    // Configurer le stub pour retourner un rôle ADMIN
     dbStub.resolves([[{ role: 'ADMIN' }]]);
     const response = await supertest(app)
       .post('/api/offer/create')
@@ -155,7 +150,6 @@ describe('POST delete offer', () => {
   afterEach(() => { sinon.restore(); });
 
   it('Should only accept admin', async () => {
-    // Configurer le stub pour retourner un rôle ADMIN
     dbStub.resolves([[{ role: 'ADMIN' }]]);
 
     const response = await supertest(app)
@@ -166,7 +160,6 @@ describe('POST delete offer', () => {
     expect(response.body.message).to.equal('Deleted');
   });
   it('Should reject non-admin', async () => {
-    // Configurer le stub pour retourner un rôle non-ADMIN
     dbStub.resolves([[{ role: 'USER' }]]);
 
     const response = await supertest(app)
@@ -177,7 +170,6 @@ describe('POST delete offer', () => {
     expect(response.body.message).to.equal("Vous n'êtes pas autorisé à accéder à cette ressource sans authentification");
   });
   it('Should only accept connected user', async () => {
-    // Configurer le stub pour retourner un rôle ADMIN
     dbStub.resolves([[{ role: 'ADMIN' }]]);
     const response = await supertest(app)
       .delete('/api/offer/1')
@@ -186,7 +178,6 @@ describe('POST delete offer', () => {
     expect(response.body.message).to.equal("Vous n'êtes pas autorisé à accéder à cette ressource sans authentification");
   });
   it('Should handle missing fields', async () => {
-    // Configurer le stub pour retourner un rôle ADMIN
     dbStub.resolves([[{ role: 'ADMIN' }]]);
     const response = await supertest(app)
       .delete('/api/offer/')
@@ -194,7 +185,6 @@ describe('POST delete offer', () => {
       .expect(404);
   });
   it('Should support multiple ids', async () => {
-    // Configurer le stub pour retourner un rôle ADMIN
     dbStub.resolves([[{ role: 'ADMIN' }]]);
     const response = await supertest(app)
       .delete('/api/offer/1|2|3')
