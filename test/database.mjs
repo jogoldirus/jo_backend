@@ -45,13 +45,12 @@ describe('Database', () => {
     expect(result).to.deep.equal(rows);
   });
 
-  it('Should throw error on failed query', async () => {
-
+  it('Should reject with an error on failed query', async () => {
     const error = new Error('Database error');
     poolStub.yields(error, null);
-
     try {
       await db.query('SELECT * FROM test_table');
+      throw new Error('Expected query to fail');
     } catch (err) {
       expect(err).to.equal(error);
     }
