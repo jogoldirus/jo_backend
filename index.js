@@ -44,3 +44,5 @@ const httpsServer = https.createServer(options, app);
 httpsServer.listen(port, () => {
   console.log(`API en écoute sur http://localhost:${port}/${isOnProd ? '' : 'api'}`);
 });
+
+module.exports = app;

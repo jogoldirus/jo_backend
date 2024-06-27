@@ -12,8 +12,8 @@ function initOfferRoutes(db) {
         res.send(result);
       })
       .catch(err => {
-        console.log(err);
-        res.status(400).send({ message: 'Error during fetching offers' });
+        // console.log(err);
+        res.status(500).send({ message: err.message });
       })
   })
   // Change offer's name
@@ -35,7 +35,7 @@ function initOfferRoutes(db) {
       })
       .catch(err => {
         console.error(err)
-        res.status(500).send({ message: 'Error changing price' })
+        res.status(500).send({ message: err.message })
       })
   })
 
@@ -98,13 +98,14 @@ function initOfferRoutes(db) {
   // Create  offer
   app.post('/offer/create', isAuthenticated, isAdmin, (req, res) => {
     const { name, price, description, eventID, placeInclude, color } = req.body;
-    if (!name || !price || !description || !eventID || !placeInclude || !color) res.status(400).send({ message: 'Missing fields' });
+    if (!name || !price || !description || !eventID || !placeInclude || !color) { res.status(400).send({ message: 'Missing fields' }); return };
     db.query('INSERT INTO offer (name, price, description, eventID, placeInclude, color) VALUES (?,?,?,?,?,?)', [name, price, description, eventID, placeInclude, color])
       .then(result => {
         res.send({ message: 'Offer created' });
         return
       })
       .catch(err => {
+        console.log("erreur");
         console.log(err);
         res.status(400).send({ message: 'Error during offer creation' });
       })
